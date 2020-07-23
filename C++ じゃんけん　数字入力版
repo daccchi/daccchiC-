@@ -1,0 +1,51 @@
+#include <ctime>
+#include<cstdlib>
+#include<iostream>
+
+using namespace std;
+
+using namespace std;
+
+int main(void) {
+
+	int user;//ユーザーの手
+	int comp;//コンピュータの手
+	int retry;//もう一度？
+	char hd[][7] = { "グー","チョキ","パー" };
+	time_t t;
+
+	srand(time(&t) % RAND_MAX);
+
+	cout << "ゲーム開始！！";
+
+	do {
+		comp = rand() % 3;
+	
+
+	cout << "\n\aじゃんけんぽん、、、";
+	for (int i = 0; i < 3; i++) 
+		cout << "(" << i << ")" << hd[i] << "";
+	cout << ":";
+
+		cin >> user;
+
+		cout << "私は" << hd[comp] << "で、"
+			<< "あなたは" << hd[user]<<"です。\n";
+
+		int diff = (user - comp + 3) % 3;
+
+		if (diff == 0)
+			cout << "引き分けです\n";
+
+		else if (diff == 1)
+			cout << "あなたの負けです\n";
+		else
+			cout << "あなたの勝ちです。\n";
+
+		cout << "もう一度しますか・・・（０）いいえ、（１）はい：";
+		cin >> retry;
+	} while (retry == 1);
+
+	return (0);
+
+}
