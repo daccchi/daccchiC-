@@ -1,0 +1,83 @@
+/*
+参考
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(int argc, char* argv[])
+{
+    char* str[] = { "赤", "黄", "青" };
+    srand(time(NULL));
+    puts(str[rand() % 3]);
+    return 0;
+}
+*/
+//##3回勝負のじゃんけん
+//import random
+
+#include<iostream>
+#include<string>
+#include<istream>
+#include<ctime>
+#include<cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+
+using namespace std;
+
+
+void janken() {
+        int win;
+        int lose;
+        string str;
+        int cpu;
+        srand(time(NULL));
+
+        cout << "じゃんけん。。。（ぐう、ちょき、ぱあのいずれかを入力してください）" ;
+
+        string jan[][7] = { "ぐー", "ちょき", "ぱー" };
+
+        // #プレイヤーの手
+        cin >> str;       
+
+        //#CPUの手
+        cpu = rand() % 3;
+
+        cout <<"あなたは" + str;
+        cout << "CPUは" <<jan[cpu];
+
+        if ((str == "ぐう" && jan[0]) || (str == "ちょき" && jan[1]) || (str == "ぱあ" && jan[2])) {
+            cout << "あいこです";
+        }
+        else if ((str == "ぐう" && jan[1]) || (str == "ちょき" && jan[2]) || (str == "ぱあ" && jan[0])) {
+            cout << "あなたの勝ちです";
+            win += 1;
+        }
+        else if ((str == "ぐう" && jan[2]) || (str == "ちょき" && jan[0]) || (str == "ぱあ" && jan[1])) {
+            cout << "CPUの勝ちです";
+            lose += 1;
+        }
+        else
+            cout << "入力にミスがあるよ";
+}
+
+int main() {
+
+
+    int win = 0;
+    int lose = 0;
+
+    cout << "3回勝負のじゃんけんです！！";
+   
+    while (true){
+        janken();
+    if (win == 3) {
+        cout << "3勝" << lose << "敗であなたの勝ちです";
+        break;
+    }
+    if (lose == 3) {
+        cout << win << "勝" << lose << "敗でCPUの勝ちです";
+        break;
+    }
+    }
+}
