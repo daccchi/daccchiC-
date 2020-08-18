@@ -1,0 +1,110 @@
+//=============================================================================
+//      Windowsプログラミング　スケルトンプログラム
+//=============================================================================
+
+#include <windows.h>
+#include <windowsx.h>
+
+// プロトタイプ宣言
+LRESULT CALLBACK WinProc(HWND, UINT, WPARAM, LPARAM);
+BOOL InitApp(HINSTANCE, int);
+
+// グローバル変数
+HWND hWnd;
+char szWinName[] = "Skeleton";
+
+int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWinMode)
+{
+    MSG msg;
+
+    /* 表示するウィンドウの定義、登録、表示 */
+    if (!InitApp(hThisInst, nWinMode))
+        return (FALSE);
+
+    /* メッセージループ */
+    while (GetMessage(&msg, NULL, 0, 0)) // Windowsは「WM_QUIT」メッセージを受けると偽(0)を戻す
+    {
+        TranslateMessage(&msg); // キーボード利用を可能にする
+        DispatchMessage(&msg);  // 制御をWindowsに戻す
+    }
+
+    return msg.wParam;
+
+}
+
+//=============================================================================
+//      ウィンドウプロシジャ関数（WindowProcedure）
+//=============================================================================
+LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+        case WM_KEYDOWN: // キーを押したとき
+            switch (wParam)
+            {
+                case VK_ESCAPE:
+                    PostMessage(hWnd, WM_CLOSE, 0, 0);
+                    break;
+            }
+            break;
+        case WM_DESTROY:        // 閉じるボタンをクリックした時
+            PostQuitMessage(0); // WM_QUITメッセージを発行
+            break;
+        default:                // 上記以外のメッセージはWindowsへ処理を任せる
+            return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+
+    return 0;
+
+}
+
+//=============================================================================
+//  関数名　：InitApp
+//  機能概要：表示するウィンドウの定義、登録、表示
+//  戻り値　：正常終了のとき１、以上終了のとき０
+//=============================================================================
+BOOL InitApp(HINSTANCE hThisInst, int nWinMode)
+{
+    WNDCLASSEX wc;
+
+    /* ウィンドウクラスを定義する */
+    wc.hInstance = hThisInst;                        // このインスタンスへのハンドル
+    wc.lpszClassName = szWinName;                    // ウィンドウクラス名
+    wc.lpfnWndProc = WinProc;                        // ウィンドウ関数
+    wc.style = 0;                                    // ウィンドウスタイル（デフォルト）
+    wc.cbSize = sizeof(WNDCLASSEX);                  // WNDCLASSEX構造体のサイズを設定
+    wc.hIcon = LoadIcon(hThisInst, IDI_APPLICATION); // ラージアイコン
+    wc.hIconSm = LoadIcon(hThisInst, IDI_WINLOGO);   // スモールアイコン
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);        // カーソルスタイル
+    wc.lpszMenuName = NULL;                          // メニュー（なしに設定）
+    wc.cbClsExtra = 0;                               // エキストラ（なしに設定）
+    wc.cbWndExtra = 0;                               // 必要な情報（なしに設定）
+    wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH); // ウィンドウの背景（黒に設定）
+
+    /* ウィンドウクラスを登録する */
+    if (!RegisterClassEx(&wc))
+        return (FALSE);
+
+    /* ウィンドウクラスの登録ができたので、ウィンドウを生成する */
+    hWnd = CreateWindowEx(
+        WS_EX_TOPMOST,          // 拡張ウィンドウスタイル
+        szWinName,                // ウィンドウクラスの名前
+        "Skeleton 背景を黒に",    // ウィンドウタイトル
+        WS_VISIBLE | WS_POPUP, // ウィンドウスタイル
+        0,                        // ウィンドウの左角Ｘ座標
+        0,                        // ウィンドウの左角Ｙ座標
+        640,                      // ウィンドウの幅
+        480,                      // ウィンドウの高さ
+        NULL,                     // 親ウィンドウ（なし）
+        NULL,                     // メニュー（なし）
+        hThisInst,                // このプログラムのインスタンスのハンドル
+        NULL                      // 追加引数（なし）
+    );
+
+    ShowWindow(hWnd, nWinMode);   // ウィンドウを表示する
+    UpdateWindow(hWnd);
+
+    return (TRUE);
+
+}
+
