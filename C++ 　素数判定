@@ -1,0 +1,26 @@
+#include<iostream>
+using namespace std;
+
+int main() {
+	int i,num;
+	cout << "2以上の整数を入力してください。";
+
+	cin >> num;
+
+	for(i = 2; i <=num; i++) {
+		if (i == num) {
+			cout << num<<"は素数です";
+		}
+		else if ((num % i) == 0) {
+			cout << num << "は素数ではありません";
+			break;
+		}
+	}
+
+	
+
+
+}
+
+
+
