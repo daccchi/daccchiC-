@@ -1,0 +1,29 @@
+#include<iostream>
+#include<string>
+#include<sstream>
+using namespace std;
+
+int x, y;
+
+void ada() {
+
+	cin >> x;
+	cin >> y;
+
+}
+
+int main() {
+	string str="abc";
+	
+
+	ada();
+
+	cin >> ws;
+	getline(cin, str);
+
+
+	for (x; x<y; x++) {
+		cout << str[x];
+	}
+
+}
